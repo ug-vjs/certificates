@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2269884583846743"
+     crossorigin="anonymous"></script>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: Georgia, Arial, sans-serif;
+    background: #000;
+  }
+  video {
+    width: 100%;
+    max-width: 1120px;
+    height: 500px;
+    margin: 0 auto;
+    display: block;
+    background: #000;
+  }
+  .back-button {
+    display: inline-block;
+    margin: 20px auto;
+    background: #007bff;
+    color: #fff;
+    padding: 15px 25px;
+    font-size: 22px;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+  }
+  .back-button:hover {
+    background: #0056b3;
+  }
+</style>
+</head>
+
+<body>
+
+<video controls autoplay muted>
+  <source src="https://movies.ug/videos/Taylor%20Kitsch-John%20Carter%20(2012).mp4">
+  Your browser does not support the video tag.
+</video>
+
+<p>
+  <a href="#" onclick="
+    if (window.top !== window.self) {
+      window.open(document.referrer || 'https://marketing2advertising.com', '_blank');
+    } else {
+      window.open('https://www.marketing2advertising.com/', '_blank');
+    }
+    return false;
+  " class="back-button">
+    &#11013;&#65039; BACK TO HOME
+  </a>
+</p>
+
+<!-- Google AdSense script -->
+<script async='async' crossorigin='anonymous' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2269884583846743'></script>
+
+<!-- Overlay container -->
+<div id='ad-overlay' style='display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:999999; justify-content:center; align-items:center;'>
+    <div style='position:absolute; top:20px; right:20px; text-align:right;'>
+        <div id='countdown' style='color:white; font-size:22px; font-weight:bold; margin-bottom:8px;'></div>
+        <button id='close-ad' style='display:none; background:#fff; border:none; font-size:20px; padding:6px 12px; cursor:pointer; border-radius:4px; font-weight:bold;'>Skip</button>
+    </div>
+
+    <div id='ad-wrapper' style='display:flex; justify-content:center; align-items:center; width:100%; height:100%; text-align:center;'></div>
+</div>
+
+<script>
+const ads = [
+    { client:"ca-pub-2269884583846743", slot:"2359999321", width:300, height:250 },
+    { client:"ca-pub-2269884583846743", slot:"1267838847", width:200, height:200 },
+    { client:"ca-pub-2269884583846743", slot:"4256856469", width:250, height:250 },
+    { client:"ca-pub-2269884583846743", slot:"8811425590", width:320, height:100 },
+    { client:"ca-pub-2269884583846743", slot:"5610977415", width:336, height:280 }
+];
+
+let currentAdIndex = 0;
+let skipClicked = false;
+
+/* --------------------------
+   SHOW AD FUNCTION
+-------------------------- */
+function showAdOverlay(seconds = 8, isFirstAd = false) {
+    const overlay = document.getElementById("ad-overlay");
+    const countdownEl = document.getElementById("countdown");
+    const closeBtn = document.getElementById("close-ad");
+    const adWrapper = document.getElementById("ad-wrapper");
+
+    overlay.style.display = "flex";
+    adWrapper.innerHTML = "";
+    closeBtn.style.display = "none";
+
+    const ad = ads[currentAdIndex];
+    const ins = document.createElement("ins");
+
+    ins.className = "adsbygoogle";
+    ins.style.display = "inline-block";
+    ins.style.width = ad.width + "px";
+    ins.style.height = ad.height + "px";
+    ins.setAttribute("data-ad-client", ad.client);
+    ins.setAttribute("data-ad-slot", ad.slot);
+
+    adWrapper.appendChild(ins);
+    (adsbygoogle = window.adsbygoogle || []).push({});
+
+    currentAdIndex = (currentAdIndex + 1) % ads.length;
+
+    let timeLeft = seconds;
+    countdownEl.textContent = "Close available in: " + timeLeft;
+
+    const timer = setInterval(() => {
+        timeLeft--;
+        countdownEl.textContent = "Close available in: " + timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            closeBtn.style.display = "inline-block";
+            closeBtn.textContent = isFirstAd ? "Skip" : "X";
+        }
+    }, 1000);
+
+    closeBtn.onclick = () => {
+        overlay.style.display = "none";
+    };
+}
+
+/* --------------------------
+   INITIAL ADS LOGIC
+-------------------------- */
+function runInitialAds() {
+
+    // After 5 minutes → Ad 1
+    setTimeout(() => {
+
+        showAdOverlay(7, true);
+
+        const closeBtn = document.getElementById("close-ad");
+
+        // Skip logic
+        closeBtn.onclick = () => {
+            skipClicked = true;
+            showAdOverlay(8);
+        };
+
+        // If NOT skipped → wait 13s then show Ad 2
+        setTimeout(() => {
+            if (!skipClicked) {
+                showAdOverlay(8);
+            }
+        }, 20000); // 7s + 13s
+
+    }, 300000); // 5 minutes
+}
+
+/* --------------------------
+   MAIN SCHEDULE (after 10 mins)
+-------------------------- */
+function startMainSchedule() {
+
+    // After 15 minutes
+    setTimeout(showAdOverlay, 900000);
+
+    // After 30 minutes
+    setTimeout(showAdOverlay, 1800000);
+
+    // After 35 minutes
+    setTimeout(showAdOverlay, 2100000);
+
+    // After 45 minutes
+    setTimeout(showAdOverlay, 2700000);
+
+    // Every 25 minutes
+    setInterval(showAdOverlay, 1500000);
+}
+
+/* --------------------------
+   START EVERYTHING
+-------------------------- */
+
+// Run initial ads
+runInitialAds();
+
+// Start schedule after 10 minutes
+setTimeout(startMainSchedule, 600000);
+</script>
+
+</body>
+</html>
